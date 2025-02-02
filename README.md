@@ -1,0 +1,2 @@
+# ATRI_Screen_Recognizer
+一款Windows端屏幕识别工具

@@ -1,2 +1,2 @@
 # ATRI_Screen_Recognizer
-一款Windows端屏幕识别工具
+一款Windows端屏幕识别工具,基于paddleOCR,使用python编写

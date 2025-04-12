@@ -15,7 +15,7 @@
 依赖肯定是要装的啦◑﹏◐  
 `pip3 install -r requirements.txt`  
 **Step4:启动!**  
-运行<font size =>"main.py"</font>即可，按下win+空格即可识屏捏ο(=•ω＜=)ρ⌒☆  
+运行<font size =4>"main.py"</font>即可，按下win+空格即可识屏捏ο(=•ω＜=)ρ⌒☆  
 
 ---
 

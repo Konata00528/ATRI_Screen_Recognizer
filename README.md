@@ -1,6 +1,5 @@
 
 # ATRI_Screen_Recognizer
----
 一个Windows端的屏幕识别工具
 ---
 

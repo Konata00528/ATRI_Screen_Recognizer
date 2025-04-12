@@ -29,4 +29,4 @@
 4.搜索商品  
 5.AI理解分析  
 <font size=1>不过因为在上学,这些功能不知道什么时候能实现哈哈哈ԅ(¯﹃¯ԅ)</font>  
-[My blog](konata.site)
+[My blog](https://konata.site)

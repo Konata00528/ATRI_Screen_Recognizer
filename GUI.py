@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QLabel, QPushButton
 from PyQt5.QtCore import Qt, QRect, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QPixmap, QIcon, QFont
+from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QLabel, QPushButton, QScrollArea, QVBoxLayout
 from PIL import Image
 import pyperclip
 import os
@@ -137,6 +138,17 @@ else:
         }
     """)
 
+plugin_area = QScrollArea(GUI)
+plugin_area.setWidgetResizable(True)
+plugin_area.setStyleSheet("""
+    QScrollArea {
+        border: 5px solid gray;  /* 设置边框宽度、样式和颜色 */
+        border-radius: 0px;         /* 设置边框圆角 */
+    }
+""")
+plugin = QWidget()
+plugin_area.setWidget(plugin)
+
 # 关闭按钮
 close_button = QPushButton(GUI)
 close_button.setGeometry(-780, height - 117, 70, 70)  # 初始位置在工具栏初始位置之外
@@ -199,6 +211,13 @@ copy_button_animation.setStartValue(QRect(-580, height - 117, 70, 70))  # 初始
 copy_button_animation.setEndValue(QRect(400, height - 117, 70, 70))  # 结束位置
 copy_button_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 
+#插件栏滑出动画
+plugin_area_animation = QPropertyAnimation(plugin_area, b"geometry")
+plugin_area_animation.setDuration(500)
+plugin_area_animation.setStartValue(QRect(-700,height -117, 470, 70))
+plugin_area_animation.setEndValue(QRect(15,height -117, 370, 70))
+plugin_area_animation.setEasingCurve(QEasingCurve.InOutQuad)
+
 # 创建工具栏收回动画
 toolbar_retract_animation = QPropertyAnimation(tool_bar, b"geometry")
 toolbar_retract_animation.setDuration(500)  # 动画持续时间（毫秒）
@@ -225,12 +244,19 @@ copy_button_retract_animation.setStartValue(QRect(400, height - 117, 70, 70))  #
 copy_button_retract_animation.setEndValue(QRect(-580, height - 117, 70, 70))  # 结束位置
 copy_button_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 
+plugin_area_retract_animation = QPropertyAnimation(plugin_area, b"geometry")
+plugin_area_retract_animation.setDuration(500)
+plugin_area_retract_animation.setStartValue(QRect(15,height -117, 370, 70))
+plugin_area_retract_animation.setEndValue(QRect(-700,height -117, 470, 70))
+plugin_area_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)
+
+
 def close_toolbar():
     toolbar_retract_animation.start()
     close_button_retract_animation.start()
     ocr_button_retract_animation.start()
     copy_button_retract_animation.start()
-
+    plugin_area_retract_animation.start()
     # 在所有动画结束后关闭应用程序
     toolbar_retract_animation.finished.connect(app.quit)
     close_button_retract_animation.finished.connect(app.quit)
@@ -244,4 +270,5 @@ if __name__ == '__main__':
     close_button_animation.start()  # 启动关闭按钮滑出动画
     ocr_button_animation.start()  # 启动OCR按钮滑出动画
     copy_button_animation.start()  # 启动复制按钮滑出动画
+    plugin_area_animation.start()  #启动插件栏滑出动画
     sys.exit(app.exec_())

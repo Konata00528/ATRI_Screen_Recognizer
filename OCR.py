@@ -38,8 +38,6 @@ for primary_item in result['ocrResult']:
     location_file.write(str(primary_item['location']['bottom'])+'\n')
 
 
-
-
 anime_process.stdin.write('exit\n')
 anime_process.stdin.flush()
 anime_process.communicate()

@@ -55,7 +55,7 @@ def data_process():  # 字符位置计算
     words_D = []
     for i in range(0,int(len(positions)),4):
         width = positions[i + 2] - positions[i]
-        height = positions[i + 1] - positions[i + 3]
+        height = positions[i + 3] - positions[i + 1]
         word_R = positions[i]
         word_D = positions[i + 1]
         word_widths.append(width)
@@ -66,12 +66,17 @@ def data_process():  # 字符位置计算
 buttons = []
 contents = []
 
-def init_words_select():  # 初始化选取字符功能
+def show_words():  #显示字符
     global word_widths
     global positions
     global words
     global button
     global contents
+    # 清空旧按钮
+    for btn in buttons:
+        btn.deleteLater()
+    buttons.clear()
+    contents.clear()
     words = read_file_to_list('.\\cache\\contents.txt', 'utf-8', False)
     def on_button_click(text):
         if text in contents:
@@ -100,18 +105,17 @@ def init_words_select():  # 初始化选取字符功能
                 border-color: #FF0000;      /* 设置鼠标悬停时的边框颜色 */
             }
         """)
+        
         button.raise_()
         button.hide()
         buttons.append(button)
 
 def words_select():  # 选取字符
     os.system('python OCR.py')
-    init_words_select()
+    show_words()
     global buttons
-    print(len(buttons))
-    for button in buttons:
-        button.show()
-
+    for btn in buttons:
+        btn.show()
 def copy():  # 复制
     global contents
     string = ''

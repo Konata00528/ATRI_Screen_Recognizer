@@ -137,7 +137,7 @@ else:
             background-color: #E6E6E6;     /* 设置背景颜色 */
         }
     """)
-
+#插件栏
 plugin_area = QScrollArea(GUI)
 plugin_area.setWidgetResizable(True)
 plugin_area.setStyleSheet("""
@@ -214,8 +214,8 @@ copy_button_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 #插件栏滑出动画
 plugin_area_animation = QPropertyAnimation(plugin_area, b"geometry")
 plugin_area_animation.setDuration(500)
-plugin_area_animation.setStartValue(QRect(-700,height -117, 470, 70))
-plugin_area_animation.setEndValue(QRect(15,height -117, 370, 70))
+plugin_area_animation.setStartValue(QRect(-700,height -126, 370, 90))
+plugin_area_animation.setEndValue(QRect(15,height -126, 370, 90))
 plugin_area_animation.setEasingCurve(QEasingCurve.InOutQuad)
 
 # 创建工具栏收回动画
@@ -225,6 +225,12 @@ toolbar_retract_animation.setStartValue(QRect(-10, height - 130, 700, 100))  # �
 toolbar_retract_animation.setEndValue(QRect(-700, height - 130, 700, 100))  # 结束位置
 toolbar_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 
+#插件栏收回动画
+plugin_area_retract_animation = QPropertyAnimation(plugin_area, b"geometry")
+plugin_area_retract_animation.setDuration(500)
+plugin_area_retract_animation.setStartValue(QRect(15,height -126, 370, 90))
+plugin_area_retract_animation.setEndValue(QRect(-700,height -126, 370, 90))
+plugin_area_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)
 # 创建按钮收回动画
 close_button_retract_animation = QPropertyAnimation(close_button, b"geometry")
 close_button_retract_animation.setDuration(500)  # 动画持续时间（毫秒）
@@ -243,12 +249,6 @@ copy_button_retract_animation.setDuration(500)  # 动画持续时间（毫秒）
 copy_button_retract_animation.setStartValue(QRect(400, height - 117, 70, 70))  # 初始位置
 copy_button_retract_animation.setEndValue(QRect(-580, height - 117, 70, 70))  # 结束位置
 copy_button_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
-
-plugin_area_retract_animation = QPropertyAnimation(plugin_area, b"geometry")
-plugin_area_retract_animation.setDuration(500)
-plugin_area_retract_animation.setStartValue(QRect(15,height -117, 370, 70))
-plugin_area_retract_animation.setEndValue(QRect(-700,height -117, 470, 70))
-plugin_area_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)
 
 
 def close_toolbar():

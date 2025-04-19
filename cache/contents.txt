@@ -1,0 +1,123 @@
+文件(F) 编辑(E)
+选择(S)
+查看(V)
+转到(G)
+资源管理器
+O
+驱
+多
+A
+女
+V PYTHON
+> adb_tools
+v ATRl_Screen_Recognizer
+>_pycache
+> cache
+> OCR
+> pictures
+e anime.py
+{} config.json
+get_screenshot.py
+. GUl.py
+key_event.py
+main.py
+学 OCR.py
+① README.md
+三requirements.txt
+swich.py
+> hack the_hitevision
+>IFEO_tool
+> ' GUl.p
+> json
+>multiProcessing
+> Pyat
+> tongyiqw
+v wechat OCR
+>_pycache
+> idea
+> img
+> json
+P
+> README_picture
+.gitignore
+R LICENSE
+ main.py
+>大纲
+妆
+〉时间线
+影develop* ②0A0 0
+2 英镑/人民币
+-1.57%
+。
+. GUl.py
+O python
+e main.py
+学 OCR.py M
+@get_screenshotpy x
+ATRl Screen Recognizer > · get screenshot.py > ...
+mem dc = img dc.createcompatibleDc()
+screenshot =win32ui.createBitmap()
+screenshot.CreatecompatibleBitmap(img dc, width, height)
+mem dc.Selectobject(screenshot)
+22
+23
+?4
+的
+26
+2
+28
+29
+3o
+34
+32
+33
+34
+35
+36
+37
+38
+39
+40
+#截图至内存设备描述表
+mem_dc.BitBlt((0,0),(width, height),img_dc,(0,0),win32con.SRCCOPY)
+#将Bitmap数据转换为PIL Image对象并保存为JPEG
+#首先创建一个BytesI0对象来接收位图数据
+bmp data = screenshot.GetBitmapBits(True)
+'raw','BGRX',0,1)
+img = Image.frombuffer('RGB',(width, height), bmp data,
+#保存为JPEG
+img.save('.\\cache\\screenshot.jpg', 'JPEG')
+#内存释放
+mem dc.DeleteDc()
+win32gui.Deleteobject(screenshot.GetHandle())
++v¥Python^X
+File "c: \users\konat\AppData\Local\Programs\Python\Python39\lib\site-packages\PIl\Image.py", line 2456, in save
+fp = builtins.open(filename, "w+b")
+FileNotFoundError: [Errno 2]No such file or directory: 'D:\\python\\cachellscreenshot.jpg
+Ps D:\python> cd .\ATRI Screen_Recognizer\
+Ps D: \python ATR Screen Recognizer> & c: /Users/konat/AppData/Local/Programs /python/python39/python.exe d: /python/ATRI screen Rec
+问题输出
+调试控制台
+终端
+端口
+ognizer/get_screenshot.py
+Traceback(most recent call last):
+File "d:\python\ATRI Screen Recognizer\get screenshot.py", line 36, in <module>
+img.save('.\\cache\\screenshot.jpg','JPEG')
+File "c: \Users\konat\AppData\Local\Programs\Python\Python39\lib\site-packages\PIL\Image.py", line 2456, in save
+fp = builtins.open(filename,"w+b")
+FileNotFoundError: 「Errno 2l No such file or directory:
+Recognizerllcachellscreenshot.ipg
+PS D:\python\ATRI Screen Recognizer>& c:/Users/konat/AppData/Local/Pro
+chon39/python.exe d:/python/ATRI Screen Rec
+ognizer/get screenshot.py
+3.49.0 64-bit
+行16.列31
+空格: 4
+UTF-8
+CRLF
+15:26:10
+口
+品
+英
+2025/4/19

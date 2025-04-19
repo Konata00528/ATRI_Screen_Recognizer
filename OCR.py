@@ -4,12 +4,17 @@ import os
 from GUI import read_file_to_list
 import subprocess
 
+content_file= open(r'.\cache\contents.txt','w',encoding='utf-8')
+location_file= open(r'.\cache\locations.txt','w',encoding='utf-8')
+
 config = open('config.json')
 config_dict = json.load(config)
 config.close()
+result = None
 anime_process = subprocess.Popen(['python', 'anime.py'],stdin=subprocess.PIPE,text=True)
 def ocr_result_callback(img_path: str, results: dict):
-    print(results)
+    global result
+    result = results
 
 ocr_manager = OcrManager(r'.\OCR')
 ocr_manager.SetExePath(r'.\OCR\WeChatOCR\WeChatOCR.exe')
@@ -20,6 +25,16 @@ ocr_manager.DoOCRTask(r'.\cache\screenshot.jpg')
 while ocr_manager.m_task_id.qsize() != OCR_MAX_TASK_ID:
     pass
 ocr_manager.KillWeChatOCR()
+
+#格式化输出
+for primary_item in result['ocrResult']:
+    content_file.write(primary_item['text']+'\n')
+content_file.close()
+
+for primary_item in result['ocrResult']:
+    for locations in primary_item.values():
+        print(locations)
+
 
 anime_process.stdin.write('exit\n')
 anime_process.stdin.flush()

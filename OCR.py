@@ -10,7 +10,7 @@ config.close()
 
 
 # 模型路径下必须含有model和params文件
-ocr = PaddleOCR(show_log=True,use_gpu=True)
+ocr = PaddleOCR(show_log=True,use_gpu=False)
 if config_dict['MR'] == "True" :
     ocr = PaddleOCR(det_model_dir = ".\\models\\Multilingual_PP-OCRv3_det_infer")
 if config_dict['FR'] == "True" :

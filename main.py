@@ -63,17 +63,26 @@ FR_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
 FR_introduce.setGeometry(10,235,700,30)
 fast_recognition.setGeometry(10,180,150,50)
 
+#GPU加速
+gpu_boost = QLabel("GPU加速",Placeholding)
+gpu_boost.setStyleSheet('font-family: "Microsoft YaHei";font-size: 30px;font-weight: bold')
+gpu_boost.setGeometry(10,260,150,50)
+gpu_boost_introduce = QLabel("开启后识别速度会提高",Placeholding)
+gpu_boost_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
+gpu_boost_introduce.setGeometry(10,315,700,30)
+
+
 #缓存
 clear_cache = QLabel("清除缓存",Placeholding)
 clear_cache.setStyleSheet('font-family: "Microsoft YaHei";font-size: 30px;font-weight: bold')
-clear_cache.setGeometry(10,260,150,50)
+clear_cache.setGeometry(10,340,150,50)
 clear_button = QPushButton(Placeholding)
-clear_button.setGeometry(600,260,100,50)
+clear_button.setGeometry(600,340,100,50)
 clear_button.setText("清除缓存")
 clear_button.clicked.connect(lambda:os.popen('del /f /s /q .\\cache\\*'))
 clear_cache_introduce = QLabel("清除在识别过程中产生的缓存文件",Placeholding)
 clear_cache_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
-clear_cache_introduce.setGeometry(10,300,700,30)
+clear_cache_introduce.setGeometry(10,395,700,30)
 
 
 #保存设置并退出

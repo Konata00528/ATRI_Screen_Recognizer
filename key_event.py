@@ -5,5 +5,5 @@ def key_event():
     while True:
         if keyboard.is_pressed('win+space'):
             os.system('python get_screenshot.py')
-            os.system('python OCR.py')
+            os.system('python GUI.py')
 key_event()

@@ -4,7 +4,7 @@ from PyQt5.QtCore import Qt, QRect, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QPixmap, QIcon, QFont
 from PIL import Image
 import pyperclip
-
+import os
 # 窗口初始化
 app = QApplication(sys.argv)
 desktop = QDesktopWidget()  # 创建一个QDesktopWidget实例来获取屏幕信息
@@ -104,6 +104,8 @@ def init_words_select():  # 初始化选取字符功能
         buttons.append(button)
 
 def words_select():  # 选取字符
+    os.system('python OCR.py')
+    init_words_select()
     global buttons
     for button in buttons:
         button.show()
@@ -237,7 +239,6 @@ def close_toolbar():
 
 if __name__ == '__main__':
     data_process()
-    init_words_select()
     GUI.show()
     toolbar_animation.start()  # 启动工具栏滑出动画
     close_button_animation.start()  # 启动关闭按钮滑出动画

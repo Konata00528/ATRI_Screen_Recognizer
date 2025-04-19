@@ -32,8 +32,12 @@ for primary_item in result['ocrResult']:
 content_file.close()
 
 for primary_item in result['ocrResult']:
-    for locations in primary_item.values():
-        print(locations)
+    location_file.write(str(primary_item['location']['left'])+'\n')
+    location_file.write(str(primary_item['location']['top'])+'\n')
+    location_file.write(str(primary_item['location']['right'])+'\n')
+    location_file.write(str(primary_item['location']['bottom'])+'\n')
+
+
 
 
 anime_process.stdin.write('exit\n')

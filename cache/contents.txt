@@ -27,7 +27,7 @@ main.py
 swich.py
 > hack the_hitevision
 >IFEO_tool
-> ' GUl.p
+> img
 > json
 >multiProcessing
 > Pyat
@@ -111,7 +111,7 @@ Recognizerllcachellscreenshot.ipg
 PS D:\python\ATRI Screen Recognizer>& c:/Users/konat/AppData/Local/Pro
 chon39/python.exe d:/python/ATRI Screen Rec
 ognizer/get screenshot.py
-3.49.0 64-bit
+3.9.0 64-bit
 行16.列31
 空格: 4
 UTF-8
@@ -120,4 +120,4 @@ CRLF
 口
 品
 英
-2025/4/19
+蜜鈈攉駢打025/4/19

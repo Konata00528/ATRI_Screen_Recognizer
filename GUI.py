@@ -48,14 +48,14 @@ def data_process():  # 字符位置计算
     global words_R
     global words_D
     global positions
-    positions = read_file_to_list('.\\cache\\positions.txt','utf-8',True)
+    positions = read_file_to_list('.\\cache\\locations.txt','utf-8',True)
     word_widths = []
     words_heights = []
     words_R = []
     words_D = []
-    for i in range(0,int(len(positions)),8):
+    for i in range(0,int(len(positions)),4):
         width = positions[i + 2] - positions[i]
-        height = positions[i + 5] - positions[i + 1]
+        height = positions[i + 1] - positions[i + 3]
         word_R = positions[i]
         word_D = positions[i + 1]
         word_widths.append(width)
@@ -72,7 +72,7 @@ def init_words_select():  # 初始化选取字符功能
     global words
     global button
     global contents
-    words = read_file_to_list('.\\cache\\contents.txt', 'ANSI', False)
+    words = read_file_to_list('.\\cache\\contents.txt', 'utf-8', False)
     def on_button_click(text):
         if text in contents:
             contents.remove(text)
@@ -108,6 +108,7 @@ def words_select():  # 选取字符
     os.system('python OCR.py')
     init_words_select()
     global buttons
+    print(len(buttons))
     for button in buttons:
         button.show()
 

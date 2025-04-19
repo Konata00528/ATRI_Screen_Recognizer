@@ -3,6 +3,7 @@ from PyQt5.QtGui import QIcon ,QPixmap
 from PyQt5.QtCore import Qt ,QRect
 import sys
 import os
+import subprocess
 from swich import QSwitchButton
 import json
 app = QApplication(sys.argv) #创建Qt应用
@@ -30,80 +31,51 @@ close_button.setIconSize(close_button.size())
 close_button.setStyleSheet('border:0;padding:0')
 close_button.clicked.connect(lambda:save_setting())
 #全部开关初始化
-MR_switch = QSwitchButton(Placeholding)
-MR_switch.setGeometry(QRect(600,100,100,50))
-FR_switch = QSwitchButton(Placeholding)
-FR_switch.setGeometry(QRect(600,180,100,50))
+
 
 #展开设置窗口
 def open_setting():
-    if config_dict['MR'] == 'True':
-        MR_switch.setOn()
-    else:
-        MR_switch.setOff()
-    if config_dict['FR'] == 'True':
-        FR_switch.setOn()
-    else:
-        FR_switch.setOff()
     setting_window.show()
 
-#多语言识别功能
-multi_recognition = QLabel("多语言识别",Placeholding)
-multi_recognition.setStyleSheet('font-family: "Microsoft YaHei";font-size: 30px;font-weight: bold')
-MR_introduce = QLabel("开启后可以识别多种语言(不开也能同时识别中英),此功能无法和快速识别同时开启",Placeholding)
-MR_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
-MR_introduce.setGeometry(10,155,700,30)
-multi_recognition.setGeometry(10,100,150,50)
-
-#快速识别功能
-fast_recognition = QLabel("快速识别",Placeholding)
-fast_recognition.setStyleSheet('font-family: "Microsoft YaHei";font-size: 30px;font-weight: bold')
-FR_introduce = QLabel("开启后仍能识别中英文速度,但精度降低,此功能无法和多语言识别同时开启(任何开关发生冲突此项最优先)",Placeholding)
-FR_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
-FR_introduce.setGeometry(10,235,700,30)
-fast_recognition.setGeometry(10,180,150,50)
-
-#GPU加速
-gpu_boost = QLabel("GPU加速",Placeholding)
-gpu_boost.setStyleSheet('font-family: "Microsoft YaHei";font-size: 30px;font-weight: bold')
-gpu_boost.setGeometry(10,260,150,50)
-gpu_boost_introduce = QLabel("开启后识别速度会提高",Placeholding)
-gpu_boost_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
-gpu_boost_introduce.setGeometry(10,315,700,30)
+#清缓存
+def clear_cache_file():
+    success = QLabel("成功",Placeholding)
+    success.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px;font-weight: bold;color: #1ED8F9')
+    success.setGeometry(600,135,100,30)
+    success.hide()
+    fail = QLabel("失败",Placeholding)
+    fail.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px;font-weight: bold;color: #CD6872')
+    fail.setGeometry(600,135,100,30)
+    success.hide() 
+    try :
+        result = subprocess.run('del /f /s /q .\\cache\\*',shell=True,check=True)
+        success.show()
+        fail.hide()
+    except subprocess.CalledProcessError as e:
+        fail.show()
+        success.hide()
 
 
-#缓存
+
+
+
+#缓存按钮
 clear_cache = QLabel("清除缓存",Placeholding)
 clear_cache.setStyleSheet('font-family: "Microsoft YaHei";font-size: 30px;font-weight: bold')
-clear_cache.setGeometry(10,340,150,50)
+clear_cache.setGeometry(10,80,150,50)
 clear_button = QPushButton(Placeholding)
-clear_button.setGeometry(600,340,100,50)
+clear_button.setGeometry(600,85,100,50)
 clear_button.setText("清除缓存")
-clear_button.clicked.connect(lambda:os.popen('del /f /s /q .\\cache\\*'))
+clear_button.clicked.connect(lambda:clear_cache_file())
 clear_cache_introduce = QLabel("清除在识别过程中产生的缓存文件",Placeholding)
 clear_cache_introduce.setStyleSheet('font-family: "Microsoft YaHei";font-size: 15px')
-clear_cache_introduce.setGeometry(10,395,700,30)
+clear_cache_introduce.setGeometry(10,130,700,30)
 
 
 #保存设置并退出
 def save_setting():
-    global json_file,config_dict,MR_switch,FR_switch
-    switches = [MR_switch,FR_switch]
-    keys = ['MR','FR']
-    def update_config_dict(switch,config_key):
-        global json_file,config_dict,MR_switch,FR_switch
-        state = str(switch.getState())
-        config_dict[config_key] = state
-    count = 0
-    for switch in switches:
-        update_config_dict(switch,keys[count])
-        count += 1
-
-    open_file = open(json_file,'w')
-    json.dump(config_dict,open_file,indent=4)
     setting_window.close()
-    open_file.close()
-
+    pass
 #样式设置
 Placeholding.setMinimumSize(700,3000)
 scroll_area = QScrollArea()

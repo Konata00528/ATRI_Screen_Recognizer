@@ -33,8 +33,14 @@ else:
     darkmode = False
 
 def read_file_to_list(file_path, encode, usefloat):  # 逐行读取txt
-    with open(file_path, 'r', encoding=encode) as file:
-        lines = file.readlines()
+    try:
+        with open(file_path, 'r', encoding=encode) as file:
+            lines = file.readlines()
+    except UnicodeDecodeError:
+        print(f"文件编码错误，尝试使用 gbk 编码读取: {file_path}")
+        with open(file_path, 'r', encoding='gbk') as file:
+            lines = file.readlines()
+    
     # 去除每行末尾的换行符
     if usefloat == False:
         lines = [line.strip() for line in lines]
@@ -72,11 +78,6 @@ def show_words():  #显示字符
     global words
     global button
     global contents
-    # 清空旧按钮
-    for btn in buttons:
-        btn.deleteLater()
-    buttons.clear()
-    contents.clear()
     words = read_file_to_list('.\\cache\\contents.txt', 'utf-8', False)
     def on_button_click(text):
         if text in contents:
@@ -109,9 +110,12 @@ def show_words():  #显示字符
         button.raise_()
         button.hide()
         buttons.append(button)
+    GUI.update()
+    QApplication.processEvents()
 
 def words_select():  # 选取字符
     os.system('python OCR.py')
+    data_process()
     show_words()
     global buttons
     for btn in buttons:
@@ -269,7 +273,6 @@ def close_toolbar():
     copy_button_retract_animation.finished.connect(app.quit)
 
 if __name__ == '__main__':
-    data_process()
     GUI.show()
     toolbar_animation.start()  # 启动工具栏滑出动画
     close_button_animation.start()  # 启动关闭按钮滑出动画

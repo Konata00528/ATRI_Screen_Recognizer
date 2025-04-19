@@ -1,7 +1,6 @@
 import json
 from wechat_ocr.ocr_manager import OcrManager, OCR_MAX_TASK_ID
 import os
-from GUI import read_file_to_list
 import subprocess
 
 content_file= open(r'.\cache\contents.txt','w',encoding='utf-8')

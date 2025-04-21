@@ -1,4 +1,3 @@
-#file:d:\python\ATRI_Screen_Recognizer\anime.py
 from PyQt5.QtWidgets import QApplication, QDesktopWidget, QLabel, QWidget
 from PyQt5.QtCore import Qt, QRect, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QPainter, QColor, QBrush, QMovie

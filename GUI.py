@@ -2,9 +2,10 @@ import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QLabel, QPushButton
 from PyQt5.QtCore import Qt, QRect, QPropertyAnimation, QEasingCurve
 from PyQt5.QtGui import QPixmap, QIcon, QFont
+from PyQt5.QtWidgets import QApplication, QWidget, QDesktopWidget, QLabel, QPushButton, QScrollArea, QVBoxLayout
 from PIL import Image
 import pyperclip
-
+import os
 # 窗口初始化
 app = QApplication(sys.argv)
 desktop = QDesktopWidget()  # 创建一个QDesktopWidget实例来获取屏幕信息
@@ -32,8 +33,14 @@ else:
     darkmode = False
 
 def read_file_to_list(file_path, encode, usefloat):  # 逐行读取txt
-    with open(file_path, 'r', encoding=encode) as file:
-        lines = file.readlines()
+    try:
+        with open(file_path, 'r', encoding=encode) as file:
+            lines = file.readlines()
+    except UnicodeDecodeError:
+        print(f"文件编码错误，尝试使用 gbk 编码读取: {file_path}")
+        with open(file_path, 'r', encoding='gbk') as file:
+            lines = file.readlines()
+    
     # 去除每行末尾的换行符
     if usefloat == False:
         lines = [line.strip() for line in lines]
@@ -47,14 +54,14 @@ def data_process():  # 字符位置计算
     global words_R
     global words_D
     global positions
-    positions = read_file_to_list('.\\cache\\positions.txt','utf-8',True)
+    positions = read_file_to_list('.\\cache\\locations.txt','utf-8',True)
     word_widths = []
     words_heights = []
     words_R = []
     words_D = []
-    for i in range(0,int(len(positions)),8):
+    for i in range(0,int(len(positions)),4):
         width = positions[i + 2] - positions[i]
-        height = positions[i + 5] - positions[i + 1]
+        height = positions[i + 3] - positions[i + 1]
         word_R = positions[i]
         word_D = positions[i + 1]
         word_widths.append(width)
@@ -65,13 +72,13 @@ def data_process():  # 字符位置计算
 buttons = []
 contents = []
 
-def init_words_select():  # 初始化选取字符功能
+def show_words():  #显示字符
     global word_widths
     global positions
     global words
     global button
     global contents
-    words = read_file_to_list('.\\cache\\contents.txt', 'ANSI', False)
+    words = read_file_to_list('.\\cache\\contents.txt', 'utf-8', False)
     def on_button_click(text):
         if text in contents:
             contents.remove(text)
@@ -99,15 +106,20 @@ def init_words_select():  # 初始化选取字符功能
                 border-color: #FF0000;      /* 设置鼠标悬停时的边框颜色 */
             }
         """)
+        
         button.raise_()
         button.hide()
         buttons.append(button)
+    GUI.update()
+    QApplication.processEvents()
 
 def words_select():  # 选取字符
+    os.system('python OCR.py')
+    data_process()
+    show_words()
     global buttons
-    for button in buttons:
-        button.show()
-
+    for btn in buttons:
+        btn.show()
 def copy():  # 复制
     global contents
     string = ''
@@ -134,6 +146,17 @@ else:
             background-color: #E6E6E6;     /* 设置背景颜色 */
         }
     """)
+#插件栏
+plugin_area = QScrollArea(GUI)
+plugin_area.setWidgetResizable(True)
+plugin_area.setStyleSheet("""
+    QScrollArea {
+        border: 5px solid gray;  /* 设置边框宽度、样式和颜色 */
+        border-radius: 0px;         /* 设置边框圆角 */
+    }
+""")
+plugin = QWidget()
+plugin_area.setWidget(plugin)
 
 # 关闭按钮
 close_button = QPushButton(GUI)
@@ -197,6 +220,13 @@ copy_button_animation.setStartValue(QRect(-580, height - 117, 70, 70))  # 初始
 copy_button_animation.setEndValue(QRect(400, height - 117, 70, 70))  # 结束位置
 copy_button_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 
+#插件栏滑出动画
+plugin_area_animation = QPropertyAnimation(plugin_area, b"geometry")
+plugin_area_animation.setDuration(500)
+plugin_area_animation.setStartValue(QRect(-700,height -126, 370, 90))
+plugin_area_animation.setEndValue(QRect(15,height -126, 370, 90))
+plugin_area_animation.setEasingCurve(QEasingCurve.InOutQuad)
+
 # 创建工具栏收回动画
 toolbar_retract_animation = QPropertyAnimation(tool_bar, b"geometry")
 toolbar_retract_animation.setDuration(500)  # 动画持续时间（毫秒）
@@ -204,6 +234,12 @@ toolbar_retract_animation.setStartValue(QRect(-10, height - 130, 700, 100))  # �
 toolbar_retract_animation.setEndValue(QRect(-700, height - 130, 700, 100))  # 结束位置
 toolbar_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 
+#插件栏收回动画
+plugin_area_retract_animation = QPropertyAnimation(plugin_area, b"geometry")
+plugin_area_retract_animation.setDuration(500)
+plugin_area_retract_animation.setStartValue(QRect(15,height -126, 370, 90))
+plugin_area_retract_animation.setEndValue(QRect(-700,height -126, 370, 90))
+plugin_area_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)
 # 创建按钮收回动画
 close_button_retract_animation = QPropertyAnimation(close_button, b"geometry")
 close_button_retract_animation.setDuration(500)  # 动画持续时间（毫秒）
@@ -223,12 +259,13 @@ copy_button_retract_animation.setStartValue(QRect(400, height - 117, 70, 70))  #
 copy_button_retract_animation.setEndValue(QRect(-580, height - 117, 70, 70))  # 结束位置
 copy_button_retract_animation.setEasingCurve(QEasingCurve.InOutQuad)  # 缓动曲线
 
+
 def close_toolbar():
     toolbar_retract_animation.start()
     close_button_retract_animation.start()
     ocr_button_retract_animation.start()
     copy_button_retract_animation.start()
-
+    plugin_area_retract_animation.start()
     # 在所有动画结束后关闭应用程序
     toolbar_retract_animation.finished.connect(app.quit)
     close_button_retract_animation.finished.connect(app.quit)
@@ -236,11 +273,10 @@ def close_toolbar():
     copy_button_retract_animation.finished.connect(app.quit)
 
 if __name__ == '__main__':
-    data_process()
-    init_words_select()
     GUI.show()
     toolbar_animation.start()  # 启动工具栏滑出动画
     close_button_animation.start()  # 启动关闭按钮滑出动画
     ocr_button_animation.start()  # 启动OCR按钮滑出动画
     copy_button_animation.start()  # 启动复制按钮滑出动画
+    plugin_area_animation.start()  #启动插件栏滑出动画
     sys.exit(app.exec_())
